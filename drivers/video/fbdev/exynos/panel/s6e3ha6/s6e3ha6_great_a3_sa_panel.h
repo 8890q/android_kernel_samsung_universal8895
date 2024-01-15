@@ -139,7 +139,11 @@ static u8 great_a3_sa_mps_table[][1] = { { 0xCC }, { 0xDC } };
 static u8 great_a3_sa_elvss_table[][S6E3HA6_TOTAL_NR_LUMINANCE][1] = {
 	{
 		/* OVER_ZERO */
+		#ifdef CONFIG_PANEL_SMART_DIMMING
+		{ 0x0B }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0C },
+		#else
 		{ 0x0A }, { 0x0A }, { 0x0A }, { 0x0A }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0C },
+		#endif
 		{ 0x0D }, { 0x0E }, { 0x0F }, { 0x11 }, { 0x13 }, { 0x15 }, { 0x15 }, { 0x15 },
 		{ 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 },
 		{ 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 },
@@ -158,7 +162,11 @@ static u8 great_a3_sa_elvss_table[][S6E3HA6_TOTAL_NR_LUMINANCE][1] = {
 	},
 	{
 		/* UNDER_ZERO */
+		#ifdef CONFIG_PANEL_SMART_DIMMING
+		{ 0x0B }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0C },
+		#else
 		{ 0x0A }, { 0x0A }, { 0x0A }, { 0x0A }, { 0x0B }, { 0x0B }, { 0x0B }, { 0x0C },
+		#endif
 		{ 0x0D }, { 0x0E }, { 0x0F }, { 0x11 }, { 0x13 }, { 0x15 }, { 0x15 }, { 0x15 },
 		{ 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 },
 		{ 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 }, { 0x15 },
@@ -1772,7 +1780,11 @@ DEFINE_VARIABLE_PACKET(great_a3_sa_gram_img_pattern_1, DSI_PKT_TYPE_WR_MEM, GREA
 #endif
 
 DEFINE_VARIABLE_PACKET(great_a3_sa_gamma, DSI_PKT_TYPE_WR, GREAT_A3_SA_GAMMA, &great_a3_sa_maptbl[GAMMA_MAPTBL], 1);
+#ifndef CONFIG_PANEL_SMART_DIMMING
 DEFINE_VARIABLE_PACKET(great_a3_sa_aor, DSI_PKT_TYPE_WR, GREAT_A3_SA_AOR, &great_a3_sa_maptbl[AOR_MAPTBL], 1);
+#else
+DEFINE_STATIC_PACKET(great_a3_sa_aor, DSI_PKT_TYPE_WR, GREAT_A3_SA_AOR);
+#endif
 
 static struct pkt_update_info pktui_great_a3_sa_tset_mps_elvss[] = {
 	{ .offset = 1, .maptbl = &great_a3_sa_maptbl[TSET_MAPTBL] },
